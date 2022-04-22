@@ -1,0 +1,9 @@
+# OS
+Icon
+Thumbs.db
+.DS_Store
+
+# Astro
+.env
+node_modules/
+dist
