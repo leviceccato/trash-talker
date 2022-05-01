@@ -5,6 +5,11 @@ import IconRecycle from '@/components/icon-recycle.vue'
 import IconGreen from '@/components/icon-green.vue'
 import IconReset from '@/components/icon-reset.vue'
 import IconFullscreen from '@/components/icon-fullscreen.vue'
+import IconMusic from '@/components/icon-music.vue'
+
+import audioUrl from '@/static/it-is-wednesday-my-dudes.mp3'
+
+const audio = new Audio(audioUrl)
 
 const bins = {
     recycle: {
@@ -39,8 +44,15 @@ const setIsReady = () => {
     let readyTime = new Date()
     readyTime.setHours(17)
 
-    isReady.value = isWednesday && (now.getTime() >= readyTime.getTime())
+    const _isReady = isWednesday && (now.getTime() >= readyTime.getTime())
+    isReady.value = _isReady
+
+    if (_isReady) {
+        playAudio()
+    }
 }
+
+const playAudio = () => audio.play()
 
 const reset = () => {
     if (!isReady.value) return
@@ -96,6 +108,9 @@ onMounted(() => {
             </button>
             <button :class="$style.controlsButton" @click="reset">
                 <IconReset :class="$style.controlsIcon" />
+            </button>
+            <button :class="$style.controlsButton" @click="playAudio">
+                <IconMusic :class="$style.controlsIcon" />
             </button>
         </div>
     </div>
