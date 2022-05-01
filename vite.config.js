@@ -3,9 +3,7 @@ import postcssPresetEnv from 'postcss-preset-env'
 import { resolve } from 'path'
 
 export default {
-    plugins: [
-        vue()
-    ],
+    plugins: [vue()],
     resolve: {
         alias: {
             '@': resolve(__dirname, 'src')
@@ -14,9 +12,7 @@ export default {
     css: {
         postcss: {
             plugins: [
-                postcssPresetEnv({
-                    stage: 0
-                })
+                postcssPresetEnv({ stage: 0 })
             ]
         }
     }

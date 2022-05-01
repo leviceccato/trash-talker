@@ -3,6 +3,8 @@ import { ref, computed, onMounted } from 'vue'
 
 import IconRecycle from '@/components/icon-recycle.vue'
 import IconGreen from '@/components/icon-green.vue'
+import IconReset from '@/components/icon-reset.vue'
+import IconFullscreen from '@/components/icon-fullscreen.vue'
 
 const bins = {
     recycle: {
@@ -48,6 +50,14 @@ const reset = () => {
     setWeekNumber()
 }
 
+const toggleFullscreen = () => {
+    if (document.fullscreenElement) {
+        document.exitFullscreen()
+        return
+    }
+    document.documentElement.requestFullscreen()
+}
+
 onMounted(() => {
     setWeekNumber()
     setIsReady()
@@ -60,8 +70,8 @@ onMounted(() => {
 
 <template>
     <div
+        ref="rootEl"
         :class="[$style.root, $style[activeBin], { [$style.ready]: isReady && !hasTakenOut }]"
-        @click="reset"
     >
         <div :class="$style.container">
             <div :class="$style.indicators">
@@ -79,6 +89,14 @@ onMounted(() => {
             <div :class="$style.message">
                 {{ message }}
             </div>
+        </div>
+        <div :class="$style.controls">
+            <button :class="$style.controlsButton" @click="toggleFullscreen">
+                <IconFullscreen :class="$style.controlsIcon" />
+            </button>
+            <button :class="$style.controlsButton" @click="reset">
+                <IconReset :class="$style.controlsIcon" />
+            </button>
         </div>
     </div>
 </template>
@@ -131,10 +149,10 @@ onMounted(() => {
     flex-direction: column;
     align-items: center;
     gap: 0.3em;
-    font-size: 60px;
+    font-size: 48px;
     border-radius: 0.6em;
     padding: 0.7em;
-    min-width: 210px;
+    min-width: 260px;
     border: 4px solid currentColor;
     opacity: 0.3;
     &.active {
@@ -157,5 +175,31 @@ onMounted(() => {
     text-align: center;
     animation-iteration-count: infinite;
     animation-duration: 1.5s;
+}
+.controls {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 5px;
+}
+.controlsButton {
+    cursor: pointer;
+    display: inline-flex;
+    color: inherit;
+    background: none;
+    border: none;
+    font-family: inherit;
+    text-align: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    padding: 5px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+    &:focus { outline: none; }
+}
+.controlsIcon {
+    width: 24px;
+    fill: currentColor;
 }
 </style>
